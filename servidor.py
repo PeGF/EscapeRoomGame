@@ -7,7 +7,7 @@ import threading
 import os
 
 class EscapeRoomServer:
-    def __init__(self, host='localhost', port=5558):
+    def __init__(self, host='localhost', port=5553):
         self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.server.bind((host, port))
         self.server.listen(2)
@@ -42,7 +42,7 @@ class EscapeRoomServer:
                     current_room.handle_player(conn, player_id, self, data.strip())
                     
                     # Se o jogador resolveu o enigma, marca como resolvido
-                    if current_room.solution_found:
+                    if (player_id == 1 and current_room.solution_found1) or (player_id == 2 and current_room.solution_found2):
                         self.game_manager.player_solved_enigma(player_id)
                         
                         # Verifica se todos os jogadores resolveram o enigma e move para a próxima sala

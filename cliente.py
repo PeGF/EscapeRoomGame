@@ -2,7 +2,7 @@ import socket
 from threading import Thread
 
 class EscapeRoomClient:
-    def __init__(self, host='localhost', port=5558):
+    def __init__(self, host='localhost', port=5553):
         self.client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.client.connect((host, port))
 

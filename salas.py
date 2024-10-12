@@ -2,7 +2,8 @@ import re
 
 class SalaBase:
     def __init__(self):
-        self.solution_found = False
+        self.solution_found1 = False
+        self.solution_found2 = False
 
     def handle_player(self, conn, player_id, server, input_solution):
         """
@@ -32,13 +33,15 @@ class Sala1(SalaBase):
         text = re.sub(r'[^a-zA-Z0-9]', '', input_solution)
         answer = text.upper()
         if player_id == 1 and (answer[3:].strip() == "CBA"):
-            self.solution_found = True
+            self.solution_found1 = True
             conn.sendall("Uma porta se abriu e você pode avançar para a próxima sala.\n".encode())
-        if player_id == 2 and (answer[3:].strip() == "385"):
-            self.solution_found = True
+        elif player_id == 2 and (answer[3:].strip() == "385"):
+            self.solution_found2 = True
             conn.sendall("Uma porta se abriu e você pode avançar para a próxima sala.\n".encode())
         else:
-            if not self.solution_found:
+            if not self.solution_found1:
+                conn.sendall("Nada aconteceu...\n".encode())
+            if not self.solution_found2:
                 conn.sendall("Nada aconteceu...\n".encode())
 
     def send_hint(self, conn, player_id):
@@ -64,13 +67,15 @@ class Sala2(SalaBase):
         text = re.sub(r'[^a-zA-Z0-9]', '', input_solution)
         answer = text.upper()
         if player_id == 1 and (answer[3:].strip() == "BONJOUR"):
-            self.solution_found = True
+            self.solution_found1 = True
             conn.sendall("Très bien! Vous pouvez passer à la pièce suivante\n".encode())
-        if player_id == 2 and (answer[3:].strip() == "HELLO" or input_solution[5:].strip() == "HI"):
-            self.solution_found = True
+        elif player_id == 2 and (answer[3:].strip() == "HELLO" or input_solution[5:].strip() == "HI"):
+            self.solution_found2 = True
             conn.sendall("Nice! You can now go to the next room\n".encode())
         else:
-            if not self.solution_found:
+            if not self.solution_found1:
+                conn.sendall("Nada aconteceu...\n".encode())
+            if not self.solution_found2:
                 conn.sendall("Nada aconteceu...\n".encode())
     
     def send_hint(self, conn, player_id):
@@ -95,11 +100,16 @@ class Sala3(SalaBase):
     def handle_player(self, conn, player_id, server, input_solution):
         text = re.sub(r'[^a-zA-Z0-9]', '', input_solution)
         answer = text.upper()
-        if answer[3:].strip() == "MERAK":
-            self.solution_found = True
+        if player_id == 1 and (answer[3:].strip() == "MERAK"):
+            self.solution_found1 = True
+            conn.sendall("As estrelas te guiam rumo à direção correta.\n".encode())
+        elif player_id == 2 and (answer[3:].strip() == "MERAK"):
+            self.solution_found2 = True
             conn.sendall("As estrelas te guiam rumo à direção correta.\n".encode())
         else:
-            if not self.solution_found:
+            if not self.solution_found1:
+                conn.sendall("Nada aconteceu...\n".encode())
+            if not self.solution_found2:
                 conn.sendall("Nada aconteceu...\n".encode())
 
     def send_hint(self, conn, player_id):
